@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Corretor de JSON</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; max-height: 300px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>Corretor de Campos JSON</h1>
+  <input type="file" id="jsonFile" accept=".json" />
+  <button onclick="corrigirJSON()">Corrigir JSON</button>
+  <pre id="output"></pre>
+  <a id="downloadLink" style="display:none;">Baixar JSON Corrigido</a>
+
+  <script>
+    let jsonData;
+
+    document.getElementById('jsonFile').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        try {
+          jsonData = JSON.parse(event.target.result);
+          document.getElementById('output').textContent = JSON.stringify(jsonData, null, 2);
+        } catch (err) {
+          alert("Arquivo inválido: " + err.message);
+        }
+      };
+
+      reader.readAsText(file);
+    });
+
+    function corrigirJSON() {
+      if (!jsonData) {
+        alert("Carregue um arquivo JSON primeiro.");
+        return;
+      }
+
+      // Supondo que o JSON seja um array de objetos
+      if (Array.isArray(jsonData)) {
+        jsonData = jsonData.map(item => corrigirItem(item));
+      } else {
+        jsonData = corrigirItem(jsonData);
+      }
+
+      const jsonString = JSON.stringify(jsonData, null, 2);
+      document.getElementById('output').textContent = jsonString;
+
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.getElementById('downloadLink');
+      link.href = url;
+      link.download = 'json_corrigido.json';
+      link.style.display = 'inline';
+      link.textContent = 'Clique aqui para baixar o JSON corrigido';
+    }
+
+    function corrigirItem(item) {
+      // ifConcessora.codigo: preencher com zeros à esquerda até 3 dígitos
+      if (item.ifConcessora?.codigo) {
+        item.ifConcessora.codigo = item.ifConcessora.codigo.toString().padStart(3, '0');
+      }
+
+      // cpf: preencher até 11 dígitos e colocar como string
+      if (item.cpf) {
+        item.cpf = item.cpf.toString().padStart(11, '0');
+      }
+
+      // numeroInscricaoEmpregador e numeroInscricaoEstabelecimento como string
+      if (item.numeroInscricaoEmpregador !== undefined) {
+        item.numeroInscricaoEmpregador = item.numeroInscricaoEmpregador.toString();
+      }
+
+      if (item.numeroInscricaoEstabelecimento !== undefined) {
+        item.numeroInscricaoEstabelecimento = item.numeroInscricaoEstabelecimento.toString();
+      }
+
+      return item;
+    }
+  </script>
+</body>
+</html>
