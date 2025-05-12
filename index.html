@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Corretor de JSON</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; max-height: 300px; overflow: auto; }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Corretor de Campos JSON</h1>
-  <input type="file" id="jsonFile" accept=".json" />
-  <button onclick="corrigirJSON()">Corrigir JSON</button>
-  <pre id="output"></pre>
-  <a id="downloadLink" style="display:none;">Baixar JSON Corrigido</a>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-start py-10 px-4">
+  <div class="w-full max-w-3xl bg-white shadow-md rounded-xl p-8">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">🧰 Corretor de Campos JSON</h1>
+
+    <div class="flex flex-col sm:flex-row gap-4 items-center justify-center mb-6">
+      <input type="file" id="jsonFile" accept=".json" class="block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200" />
+      <button onclick="corrigirJSON()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+        Corrigir JSON
+      </button>
+    </div>
+
+    <div class="bg-gray-50 border border-gray-300 p-4 rounded-lg max-h-96 overflow-auto text-sm font-mono whitespace-pre" id="output">
+      Carregue um arquivo JSON para visualizar aqui...
+    </div>
+
+    <div class="mt-6 text-center">
+      <a id="downloadLink" style="display: none;" class="inline-block bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition">
+        Baixar JSON Corrigido
+      </a>
+    </div>
+  </div>
 
   <script>
     let jsonData;
@@ -40,7 +53,6 @@
         return;
       }
 
-      // Supondo que o JSON seja um array de objetos
       if (Array.isArray(jsonData)) {
         jsonData = jsonData.map(item => corrigirItem(item));
       } else {
@@ -55,26 +67,27 @@
       const link = document.getElementById('downloadLink');
       link.href = url;
       link.download = 'json_corrigido.json';
-      link.style.display = 'inline';
-      link.textContent = 'Clique aqui para baixar o JSON corrigido';
+      link.style.display = 'inline-block';
+      link.textContent = '📥 Baixar JSON Corrigido';
     }
 
     function corrigirItem(item) {
-      // ifConcessora.codigo: preencher com zeros à esquerda até 3 dígitos
+      // ifConcessora.codigo
       if (item.ifConcessora?.codigo) {
         item.ifConcessora.codigo = item.ifConcessora.codigo.toString().padStart(3, '0');
       }
 
-      // cpf: preencher até 11 dígitos e colocar como string
+      // cpf
       if (item.cpf) {
         item.cpf = item.cpf.toString().padStart(11, '0');
       }
 
-      // numeroInscricaoEmpregador e numeroInscricaoEstabelecimento como string
+      // numeroInscricaoEmpregador
       if (item.numeroInscricaoEmpregador !== undefined) {
         item.numeroInscricaoEmpregador = item.numeroInscricaoEmpregador.toString();
       }
 
+      // numeroInscricaoEstabelecimento
       if (item.numeroInscricaoEstabelecimento !== undefined) {
         item.numeroInscricaoEstabelecimento = item.numeroInscricaoEstabelecimento.toString();
       }
