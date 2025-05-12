@@ -14,7 +14,3 @@
 .output-panel {
   @apply bg-gray-50 border border-gray-300 p-4 rounded-lg max-h-96 overflow-auto text-sm font-mono whitespace-pre;
 }
-h1 {
-  font-family: 'Anton', sans-serif;
-  letter-spacing: 2px;
-}
