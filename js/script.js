@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function corrigirCampos(obj) {
-  if (obj.ifConcessora?.codigo) {
-    obj.ifConcessora.codigo = obj.ifConcessora.codigo.toString().padStart(3, "0");
+  if (obj.ifConcessora) {
+    obj.ifConcessora.codigo = obj.ifConcessora.codigo?.toString().padStart(3, "0") || "000";
   }
 
   if (obj.cpf) {
