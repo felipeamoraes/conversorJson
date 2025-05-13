@@ -1,61 +1,69 @@
-let jsonData;
+let originalJSON = {};
+let fixedJSON = {};
 
-document.getElementById('jsonFile').addEventListener('change', function (e) {
-  const file = e.target.files[0];
-  const reader = new FileReader();
+const dropArea = document.getElementById('drop-area');
+const fileElem = document.getElementById('fileElem');
+const fileNameDisplay = document.getElementById('fileName');
+const output = document.getElementById('output');
 
-  reader.onload = function (event) {
-    try {
-      jsonData = JSON.parse(event.target.result);
-      document.getElementById('output').textContent = JSON.stringify(jsonData, null, 2);
-    } catch (err) {
-      alert("Arquivo inválido: " + err.message);
-    }
-  };
-
-  reader.readAsText(file);
+// Upload por arrastar e soltar
+dropArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropArea.classList.add('hover');
 });
 
-function corrigirJSON() {
-  if (!jsonData) {
-    alert("Carregue um arquivo JSON primeiro.");
+dropArea.addEventListener('dragleave', () => {
+  dropArea.classList.remove('hover');
+});
+
+dropArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropArea.classList.remove('hover');
+  handleFile(e.dataTransfer.files[0]);
+});
+
+fileElem.addEventListener('change', (e) => {
+  handleFile(e.target.files[0]);
+});
+
+function handleFile(file) {
+  if (!file.name.endsWith('.json')) {
+    alert('Por favor, selecione um arquivo .json');
     return;
   }
 
-  if (Array.isArray(jsonData)) {
-    jsonData = jsonData.map(item => corrigirItem(item));
-  } else {
-    jsonData = corrigirItem(jsonData);
-  }
-
-  const jsonString = JSON.stringify(jsonData, null, 2);
-  document.getElementById('output').textContent = jsonString;
-
-  const blob = new Blob([jsonString], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.getElementById('downloadLink');
-  link.href = url;
-  link.download = 'json_corrigido.json';
-  link.style.display = 'inline-block';
-  link.textContent = '📥 Baixar JSON Corrigido';
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    try {
+      originalJSON = JSON.parse(e.target.result);
+      output.textContent = JSON.stringify(originalJSON, null, 2);
+      fileNameDisplay.textContent = file.name;
+      fileNameDisplay.classList.remove('hidden');
+    } catch (err) {
+      alert('Erro ao ler o JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
 }
 
-function corrigirItem(item) {
-  if (item.ifConcessora?.codigo) {
-    item.ifConcessora.codigo = item.ifConcessora.codigo.toString().padStart(3, '0');
-  }
+function applyFixes() {
+  fixedJSON = fixJSON(originalJSON);
+  output.textContent = JSON.stringify(fixedJSON, null, 2);
+}
 
-  if (item.cpf) {
-    item.cpf = item.cpf.toString().padStart(11, '0');
+function fixJSON(data) {
+  // Exemplo: transforma chaves em minúsculas
+  const newData = {};
+  for (const key in data) {
+    newData[key.toLowerCase()] = data[key];
   }
+  return newData;
+}
 
-  if (item.numeroInscricaoEmpregador !== undefined) {
-    item.numeroInscricaoEmpregador = item.numeroInscricaoEmpregador.toString();
-  }
-
-  if (item.numeroInscricaoEstabelecimento !== undefined) {
-    item.numeroInscricaoEstabelecimento = item.numeroInscricaoEstabelecimento.toString();
-  }
-
-  return item;
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(fixedJSON, null, 2)], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'corrigido.txt';
+  link.click();
 }
