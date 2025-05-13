@@ -3,22 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Conversor de JSON</title>
+  <title>Conversor JSON</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <div class="container">
-    <h2>📄 Importar JSON</h2>
-    <div class="drop-area">
-      <input type="file" id="fileElem" accept=".json" />
-      <label for="fileElem" class="button">Selecionar Arquivo</label>
-      <p>📤 Arraste e solte um arquivo JSON aqui ou Selecionar Arquivo</p>
+    <h2><i class="icon">📄</i> Importar JSON</h2>
+
+    <div id="dropZone" class="drop-zone">
+      <p><i class="icon">📥</i> Arraste e solte um arquivo JSON aqui ou</p>
+      <input type="file" id="fileInput" accept=".json" />
     </div>
-    <div id="file-name" class="file-name">Nenhum arquivo carregado</div>
-    <div class="buttons">
+
+    <input type="text" id="fileName" readonly placeholder="Nenhum arquivo selecionado" />
+
+    <div class="actions">
       <button onclick="downloadJSON()">Baixar JSON Corrigido</button>
     </div>
   </div>
+
   <script src="js/script.js"></script>
 </body>
 </html>
