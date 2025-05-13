@@ -48,20 +48,24 @@ function fixJSON(data) {
   });
 }
 
-
-function processJSON() {
-  if (!jsonData) {
-    alert("Nenhum JSON carregado.");
+function downloadJSON() {
+  if (!correctedJsonData) {
+    alert("Corrija o JSON antes de baixar.");
     return;
   }
-  const correctedData = fixJSON(jsonData);
-  const correctedText = JSON.stringify(correctedData, null, 2);
-  const blob = new Blob([correctedText], { type: "application/json" });
+
+  const blob = new Blob([JSON.stringify(correctedJsonData, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "json_corrigido.json";
+
+  // Nome do arquivo com data
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  a.download = 'json_corrigido_${timestamp}.json';
+
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
