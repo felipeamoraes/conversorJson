@@ -29,15 +29,15 @@ function fixJSON(data) {
     }
 
     if (corrected.cpf !== undefined) {
-      corrected.cpf = "\""+String(corrected.cpf).padStart(11, '0')+"\"";
+      corrected.cpf = """"+String(corrected.cpf).padStart(11, '0')+"""";
     }
 
     if (corrected.numeroInscricaoEmpregador !== undefined) {
-      corrected.numeroInscricaoEmpregador = "\""+String(corrected.numeroInscricaoEmpregador)+"\"";
+      corrected.numeroInscricaoEmpregador = """"+String(corrected.numeroInscricaoEmpregador)+"""";
     }
 
     if (corrected.numeroInscricaoEstabelecimento !== undefined) {
-      corrected.numeroInscricaoEstabelecimento = "\""+String(corrected.numeroInscricaoEstabelecimento)+"\"";
+      corrected.numeroInscricaoEstabelecimento = """"+String(corrected.numeroInscricaoEstabelecimento)+"""";
     }
 
     return corrected;
