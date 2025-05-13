@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function corrigirCampos(obj) {
-  if (obj.ifConcessora && obj.ifConcessora.codigo) {
+  if (obj.ifConcessora?.codigo) {
     obj.ifConcessora.codigo = obj.ifConcessora.codigo.toString().padStart(3, "0");
   }
 
@@ -75,13 +75,12 @@ function downloadJSON() {
     dataCorrigida = corrigirCampos(jsonData);
   }
 
-  const blob = new Blob([JSON.stringify(dataCorrigida, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
+  const blob = new Blob([JSON.stringify(dataCorrigida, null, 2)], {
+    type: "application/json"
+  });
 
-  a.href = url;
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
   a.download = "json_corrigido.json";
   a.click();
-
-  URL.revokeObjectURL(url);
 }
