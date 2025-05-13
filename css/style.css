@@ -1,21 +1,24 @@
 body {
+  background-color: #f3f3f3;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 40px;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
 }
 
 .container {
-  max-width: 600px;
-  margin: auto;
-  background-color: #1c1d2e;
+  background-color: #1e1f36;
+  color: #fff;
   padding: 30px;
   border-radius: 10px;
-  color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 h2 {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
@@ -23,46 +26,46 @@ h2 {
   margin-right: 10px;
 }
 
-.drop-zone {
-  border: 2px dashed #aaa;
-  padding: 30px;
-  border-radius: 8px;
+#drop-area {
+  border: 2px dashed #888;
+  border-radius: 5px;
+  padding: 20px;
   text-align: center;
   margin-bottom: 15px;
-  background-color: #2a2b3d;
+  background-color: #2e2f4e;
+}
+
+#fileElem {
+  display: none;
+}
+
+label {
+  cursor: pointer;
   color: #fff;
 }
 
-.drop-zone.hover {
-  background-color: #444;
-  border-color: #ddd;
-}
-
-input[type="file"] {
-  margin-top: 10px;
-  color: #fff;
-}
-
-input[type="text"] {
+#fileName {
   width: 100%;
   padding: 10px;
-  margin-top: 15px;
   border: none;
-  border-radius: 4px;
-  background-color: #d6f5ff;
-  color: #333;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  background-color: #d0f0ff;
+  color: #000;
 }
 
 button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #5f48f4;
+  background-color: #6a5acd;
   color: white;
   border: none;
-  border-radius: 4px;
+  padding: 10px 18px;
+  border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
+  width: 100%;
 }
 
-button:hover {
-  background-color: #4b3ccc;
+button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
 }
