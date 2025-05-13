@@ -9,12 +9,12 @@
 <body>
   <div class="container">
     <h2>📄 Importar JSON</h2>
-    <div class="drop-area" id="drop-area">
+    <div class="drop-area">
       <input type="file" id="fileElem" accept=".json" />
       <label for="fileElem" class="button">Selecionar Arquivo</label>
       <p>📤 Arraste e solte um arquivo JSON aqui ou Selecionar Arquivo</p>
     </div>
-    <div id="file-name" class="file-name"></div>
+    <div id="file-name" class="file-name">Nenhum arquivo carregado</div>
     <div class="buttons">
       <button onclick="processJSON()">Corrigir</button>
       <button onclick="downloadText()">Baixar Arquivo</button>
