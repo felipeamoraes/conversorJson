@@ -25,21 +25,19 @@ function fixJSON(data) {
     const corrected = { ...item };
 
     if (corrected.ifConcessora?.codigo !== undefined) {
-      let codigo = String(corrected.ifConcessora.codigo).padStart(3, '0');
-      corrected.ifConcessora.codigo = codigo;
+      corrected.ifConcessora.codigo = String(corrected.ifConcessora.codigo).padStart(3, '0');
     }
 
     if (corrected.cpf !== undefined) {
-      let cpf = String(corrected.cpf).padStart(11, '0');
-      corrected.cpf = `"${cpf}"`;
+      corrected.cpf = "\""+String(corrected.cpf).padStart(11, '0')+"\"";
     }
 
     if (corrected.numeroInscricaoEmpregador !== undefined) {
-      corrected.numeroInscricaoEmpregador = `"${String(corrected.numeroInscricaoEmpregador)}"`;
+      corrected.numeroInscricaoEmpregador = "\""+String(corrected.numeroInscricaoEmpregador)+"\"";
     }
 
     if (corrected.numeroInscricaoEstabelecimento !== undefined) {
-      corrected.numeroInscricaoEstabelecimento = `"${String(corrected.numeroInscricaoEstabelecimento)}"`;
+      corrected.numeroInscricaoEstabelecimento = "\""+String(corrected.numeroInscricaoEstabelecimento)+"\"";
     }
 
     return corrected;
