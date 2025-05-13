@@ -1,16 +1,84 @@
-/* Custom classes em complemento ao Tailwind */
-.file-input {
-  @apply block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200;
+body {
+  background-color: #f3f3ff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
 }
 
-.btn-primary {
-  @apply bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition;
+.container {
+  background-color: #1e1e2f;
+  color: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 600px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-.btn-download {
-  @apply inline-block bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition;
+h2 {
+  margin-top: 0;
 }
 
-.output-panel {
-  @apply bg-gray-50 border border-gray-300 p-4 rounded-lg max-h-96 overflow-auto text-sm font-mono whitespace-pre;
+.drop-area {
+  border: 2px dashed #aaa;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  background-color: #2a2a3b;
+  cursor: pointer;
+  position: relative;
+}
+
+.drop-area:hover {
+  border-color: #7f5af0;
+}
+
+.drop-area input {
+  display: none;
+}
+
+.btn {
+  background-color: transparent;
+  color: #7f5af0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.file-name {
+  background-color: #c2f0ff;
+  color: #222;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.actions button {
+  background-color: #7f5af0;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background-color: #9a7dff;
+}
+
+pre {
+  background-color: #2a2a3b;
+  padding: 10px;
+  border-radius: 5px;
+  white-space: pre-wrap;
 }
