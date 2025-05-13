@@ -1,7 +1,6 @@
-
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f3f4f6;
   margin: 0;
   padding: 40px;
   display: flex;
@@ -9,21 +8,23 @@ body {
 }
 
 .container {
-  background-color: #1f2235;
-  color: #fff;
+  background-color: #1e2130;
+  color: #ffffff;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 12px;
   width: 600px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
 
 h2 {
   margin-top: 0;
-  font-size: 22px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
 }
 
 .drop-area {
-  border: 2px dashed #666;
+  border: 2px dashed #aaa;
   padding: 30px;
   text-align: center;
   border-radius: 8px;
@@ -31,15 +32,15 @@ h2 {
   background-color: #2c2f48;
 }
 
-.drop-area input {
+input[type="file"] {
   display: none;
 }
 
 .button {
-  background-color: #5a4ff3;
+  background-color: #6c63ff;
   color: white;
   padding: 10px 16px;
-  border-radius: 5px;
+  border-radius: 6px;
   text-decoration: none;
   margin-top: 10px;
   display: inline-block;
@@ -50,16 +51,24 @@ h2 {
   background-color: #c7f4ff;
   color: #000;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 6px;
   margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 .buttons button {
-  margin-right: 10px;
-  padding: 10px 16px;
-  border-radius: 5px;
+  padding: 10px 20px;
+  border-radius: 6px;
   border: none;
-  background-color: #5a4ff3;
+  background-color: #6c63ff;
   color: white;
+  font-weight: bold;
   cursor: pointer;
 }
