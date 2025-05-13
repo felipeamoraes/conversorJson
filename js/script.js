@@ -1,69 +1,80 @@
-let originalJSON = {};
-let fixedJSON = {};
 
-const dropArea = document.getElementById('drop-area');
-const fileElem = document.getElementById('fileElem');
-const fileNameDisplay = document.getElementById('fileName');
-const output = document.getElementById('output');
+let jsonData = null;
 
-// Upload por arrastar e soltar
-dropArea.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  dropArea.classList.add('hover');
-});
-
-dropArea.addEventListener('dragleave', () => {
-  dropArea.classList.remove('hover');
-});
-
-dropArea.addEventListener('drop', (e) => {
-  e.preventDefault();
-  dropArea.classList.remove('hover');
-  handleFile(e.dataTransfer.files[0]);
-});
-
-fileElem.addEventListener('change', (e) => {
-  handleFile(e.target.files[0]);
-});
-
-function handleFile(file) {
-  if (!file.name.endsWith('.json')) {
-    alert('Por favor, selecione um arquivo .json');
-    return;
-  }
-
+document.getElementById("fileElem").addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
   const reader = new FileReader();
-  reader.onload = function (e) {
+  reader.onload = function(event) {
     try {
-      originalJSON = JSON.parse(e.target.result);
-      output.textContent = JSON.stringify(originalJSON, null, 2);
-      fileNameDisplay.textContent = file.name;
-      fileNameDisplay.classList.remove('hidden');
+      jsonData = JSON.parse(event.target.result);
+      document.getElementById("file-name").innerText = file.name;
     } catch (err) {
-      alert('Erro ao ler o JSON: ' + err.message);
+      alert("Erro ao ler o JSON: " + err.message);
     }
   };
   reader.readAsText(file);
-}
-
-function applyFixes() {
-  fixedJSON = fixJSON(originalJSON);
-  output.textContent = JSON.stringify(fixedJSON, null, 2);
-}
+});
 
 function fixJSON(data) {
-  // Exemplo: transforma chaves em minúsculas
-  const newData = {};
-  for (const key in data) {
-    newData[key.toLowerCase()] = data[key];
+  if (!Array.isArray(data)) {
+    alert("O JSON deve ser um array de objetos.");
+    return data;
   }
-  return newData;
+
+  return data.map(item => {
+    const corrected = { ...item };
+
+    if (corrected.ifConcessora?.codigo !== undefined) {
+      let codigo = String(corrected.ifConcessora.codigo).padStart(3, '0');
+      corrected.ifConcessora.codigo = codigo;
+    }
+
+    if (corrected.cpf !== undefined) {
+      let cpf = String(corrected.cpf).padStart(11, '0');
+      corrected.cpf = `"${cpf}"`;
+    }
+
+    if (corrected.numeroInscricaoEmpregador !== undefined) {
+      corrected.numeroInscricaoEmpregador = `"${String(corrected.numeroInscricaoEmpregador)}"`;
+    }
+
+    if (corrected.numeroInscricaoEstabelecimento !== undefined) {
+      corrected.numeroInscricaoEstabelecimento = `"${String(corrected.numeroInscricaoEstabelecimento)}"`;
+    }
+
+    return corrected;
+  });
 }
 
-function downloadJSON() {
-  const blob = new Blob([JSON.stringify(fixedJSON, null, 2)], { type: 'text/plain' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'corrigido.txt';
-  link.click();
+function processJSON() {
+  if (!jsonData) {
+    alert("Nenhum JSON carregado.");
+    return;
+  }
+  const correctedData = fixJSON(jsonData);
+  const correctedText = JSON.stringify(correctedData, null, 2);
+  const blob = new Blob([correctedText], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "json_corrigido.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function downloadText() {
+  if (!jsonData) {
+    alert("Nenhum JSON carregado.");
+    return;
+  }
+  const correctedData = fixJSON(jsonData);
+  const correctedText = JSON.stringify(correctedData, null, 2);
+  const blob = new Blob([correctedText], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "json_corrigido.txt";
+  a.click();
+  URL.revokeObjectURL(url);
 }
