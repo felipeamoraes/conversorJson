@@ -24,25 +24,30 @@ function fixJSON(data) {
   return data.map(item => {
     const corrected = { ...item };
 
+    // ifConcessora.codigo: padStart com 3 dígitos
     if (corrected.ifConcessora?.codigo !== undefined) {
       corrected.ifConcessora.codigo = String(corrected.ifConcessora.codigo).padStart(3, '0');
     }
 
+    // cpf: string com 11 dígitos
     if (corrected.cpf !== undefined) {
-      corrected.cpf = """"+String(corrected.cpf).padStart(11, '0')+"""";
+      corrected.cpf = String(corrected.cpf).padStart(11, '0');
     }
 
+    // numeroInscricaoEmpregador: garantir string
     if (corrected.numeroInscricaoEmpregador !== undefined) {
-      corrected.numeroInscricaoEmpregador = """"+String(corrected.numeroInscricaoEmpregador)+"""";
+      corrected.numeroInscricaoEmpregador = String(corrected.numeroInscricaoEmpregador);
     }
 
+    // numeroInscricaoEstabelecimento: garantir string
     if (corrected.numeroInscricaoEstabelecimento !== undefined) {
-      corrected.numeroInscricaoEstabelecimento = """"+String(corrected.numeroInscricaoEstabelecimento)+"""";
+      corrected.numeroInscricaoEstabelecimento = String(corrected.numeroInscricaoEstabelecimento);
     }
 
     return corrected;
   });
 }
+
 
 function processJSON() {
   if (!jsonData) {
@@ -60,18 +65,3 @@ function processJSON() {
   URL.revokeObjectURL(url);
 }
 
-function downloadText() {
-  if (!jsonData) {
-    alert("Nenhum JSON carregado.");
-    return;
-  }
-  const correctedData = fixJSON(jsonData);
-  const correctedText = JSON.stringify(correctedData, null, 2);
-  const blob = new Blob([correctedText], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "json_corrigido.txt";
-  a.click();
-  URL.revokeObjectURL(url);
-}
