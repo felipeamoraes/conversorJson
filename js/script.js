@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function corrigirCampos(obj) {
-  if (obj.ifConcessora?.codigo) {
+  if (obj.ifConcessora.codigo) {
     obj.ifConcessora.codigo = obj.ifConcessora.codigo.toString().padStart(3, "0");
   }
 
