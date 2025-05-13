@@ -1,82 +1,68 @@
 body {
-  margin: 0;
-  padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #f1f2f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 40px;
 }
 
 .container {
-  background-color: #1e1e30;
+  max-width: 600px;
+  margin: auto;
+  background-color: #1c1d2e;
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  width: 100%;
-  max-width: 500px;
+  border-radius: 10px;
   color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 h2 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.5rem;
   margin-bottom: 20px;
 }
 
 .icon {
-  font-size: 1.4rem;
+  margin-right: 10px;
 }
 
 .drop-zone {
   border: 2px dashed #aaa;
+  padding: 30px;
   border-radius: 8px;
-  padding: 25px;
   text-align: center;
   margin-bottom: 15px;
-  background-color: #2e2e42;
-  transition: background-color 0.3s;
+  background-color: #2a2b3d;
+  color: #fff;
 }
 
-.drop-zone:hover {
-  background-color: #3a3a50;
+.drop-zone.hover {
+  background-color: #444;
+  border-color: #ddd;
 }
 
 input[type="file"] {
   margin-top: 10px;
-  color: white;
+  color: #fff;
 }
 
 input[type="text"] {
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
   border: none;
-  border-radius: 5px;
-  background-color: #cceeff;
-  color: #000;
-}
-
-.actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
+  border-radius: 4px;
+  background-color: #d6f5ff;
+  color: #333;
 }
 
 button {
+  margin-top: 20px;
   padding: 10px 20px;
-  border: none;
-  background-color: #6a5acd;
+  background-color: #5f48f4;
   color: white;
-  border-radius: 6px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
 }
 
 button:hover {
-  background-color: #574bcf;
+  background-color: #4b3ccc;
 }
