@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JSON Fixer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conversor de JSON</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -11,19 +11,15 @@
     <h2>📄 Importar JSON</h2>
     <div class="drop-area" id="drop-area">
       <input type="file" id="fileElem" accept=".json" />
-      <label for="fileElem">📤 Arraste e solte um arquivo JSON aqui ou <span class="btn">Selecionar Arquivo</span></label>
+      <label for="fileElem" class="button">Selecionar Arquivo</label>
+      <p>📤 Arraste e solte um arquivo JSON aqui ou Selecionar Arquivo</p>
     </div>
-
-    <div id="fileName" class="file-name hidden"></div>
-
-    <div class="actions">
-      <button onclick="applyFixes()">Corrigir</button>
-      <button onclick="downloadJSON()">Baixar Arquivo</button>
+    <div id="file-name" class="file-name"></div>
+    <div class="buttons">
+      <button onclick="processJSON()">Corrigir</button>
+      <button onclick="downloadText()">Baixar Arquivo</button>
     </div>
-
-    <pre id="output"></pre>
   </div>
-
   <script src="js/script.js"></script>
 </body>
 </html>
