@@ -1,4 +1,3 @@
-
 let jsonData = null;
 
 document.getElementById("fileElem").addEventListener("change", function(e) {
