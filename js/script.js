@@ -1,99 +1,87 @@
-let originalJsonData = null;
+let jsonData = null;
 
-document.getElementById("fileInput").addEventListener("change", handleFileSelect);
-document.getElementById("dropZone").addEventListener("dragover", handleDragOver);
-document.getElementById("dropZone").addEventListener("drop", handleFileDrop);
+document.addEventListener("DOMContentLoaded", function () {
+  const dropZone = document.getElementById("dropZone");
+  const fileInput = document.getElementById("fileInput");
+  const fileNameInput = document.getElementById("fileName");
 
-function handleFileSelect(event) {
-  const file = event.target.files[0];
-  readFile(file);
-}
-
-function handleDragOver(event) {
-  event.preventDefault();
-  event.dataTransfer.dropEffect = "copy";
-}
-
-function handleFileDrop(event) {
-  event.preventDefault();
-  const file = event.dataTransfer.files[0];
-  readFile(file);
-}
-
-function readFile(file) {
-  if (!file || file.type !== "application/json") {
-    alert("Por favor, envie um arquivo JSON válido.");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    try {
-      originalJsonData = JSON.parse(e.target.result);
-      document.getElementById("fileName").value = file.name;
-    } catch (err) {
-      alert("Erro ao ler o JSON: " + err.message);
-    }
-  };
-  reader.readAsText(file);
-}
-
-function fixJSON(data) {
-  if (!Array.isArray(data)) {
-    alert("O JSON deve ser um array de objetos.");
-    return data;
-  }
-
-  return data.map(item => {
-    const corrected = { ...item };
-
-    // Garantir estrutura aninhada
-    if (!corrected.ifConcessora) corrected.ifConcessora = {};
-
-    // ifConcessora.codigo: 3 dígitos
-    if (corrected.ifConcessora.codigo !== undefined) {
-      corrected.ifConcessora.codigo = String(corrected.ifConcessora.codigo).padStart(3, '0');
-    }
-
-    // cpf: 11 dígitos como string
-    if (corrected.cpf !== undefined) {
-      corrected.cpf = String(corrected.cpf).padStart(11, '0');
-    }
-
-    // numeroInscricaoEmpregador como string
-    if (corrected.numeroInscricaoEmpregador !== undefined) {
-      corrected.numeroInscricaoEmpregador = String(corrected.numeroInscricaoEmpregador);
-    }
-
-    // numeroInscricaoEstabelecimento como string
-    if (corrected.numeroInscricaoEstabelecimento !== undefined) {
-      corrected.numeroInscricaoEstabelecimento = String(corrected.numeroInscricaoEstabelecimento);
-    }
-
-    return corrected;
+  dropZone.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    dropZone.classList.add("hover");
   });
+
+  dropZone.addEventListener("dragleave", function () {
+    dropZone.classList.remove("hover");
+  });
+
+  dropZone.addEventListener("drop", function (e) {
+    e.preventDefault();
+    dropZone.classList.remove("hover");
+    const file = e.dataTransfer.files[0];
+    handleFile(file);
+  });
+
+  fileInput.addEventListener("change", function () {
+    const file = fileInput.files[0];
+    handleFile(file);
+  });
+
+  function handleFile(file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        jsonData = JSON.parse(e.target.result);
+        fileNameInput.value = file.name;
+      } catch (err) {
+        alert("Arquivo JSON inválido.");
+        jsonData = null;
+      }
+    };
+    reader.readAsText(file);
+  }
+});
+
+function corrigirCampos(obj) {
+  if (obj.ifConcessora && obj.ifConcessora.codigo) {
+    obj.ifConcessora.codigo = obj.ifConcessora.codigo.toString().padStart(3, "0");
+  }
+
+  if (obj.cpf) {
+    obj.cpf = obj.cpf.toString().padStart(11, "0");
+  }
+
+  if (obj.numeroInscricaoEmpregador) {
+    obj.numeroInscricaoEmpregador = obj.numeroInscricaoEmpregador.toString();
+  }
+
+  if (obj.numeroInscricaoEstabelecimento) {
+    obj.numeroInscricaoEstabelecimento = obj.numeroInscricaoEstabelecimento.toString();
+  }
+
+  return obj;
 }
 
 function downloadJSON() {
-  if (!originalJsonData) {
-    alert("Carregue um arquivo JSON primeiro.");
+  if (!jsonData) {
+    alert("Nenhum arquivo JSON carregado.");
     return;
   }
 
-  const correctedJsonData = fixJSON(originalJsonData);
+  let dataCorrigida;
 
-  const blob = new Blob([JSON.stringify(correctedJsonData, null, 2)], {
-    type: "application/json"
-  });
+  if (Array.isArray(jsonData)) {
+    dataCorrigida = jsonData.map(item => corrigirCampos(item));
+  } else {
+    dataCorrigida = corrigirCampos(jsonData);
+  }
+
+  const blob = new Blob([JSON.stringify(dataCorrigida, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
+
   a.href = url;
-
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  a.download = `json_corrigido_${timestamp}.json`;
-
-  document.body.appendChild(a);
+  a.download = "json_corrigido.json";
   a.click();
-  document.body.removeChild(a);
+
   URL.revokeObjectURL(url);
 }
