@@ -58,6 +58,10 @@ function corrigirCampos(obj) {
     obj.numeroInscricaoEstabelecimento = obj.numeroInscricaoEstabelecimento.toString();
   }
 
+  if (obj.contrato) {
+  obj.contrato = obj.contrato.toString().padStart(12, "0");
+  }
+
   return obj;
 }
 
