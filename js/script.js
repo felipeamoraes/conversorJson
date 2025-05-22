@@ -59,7 +59,12 @@ function corrigirCampos(obj) {
   }
 
   if (obj.contrato) {
-  obj.contrato = obj.contrato.toString().padStart(12, "0");
+    obj.contrato = obj.contrato.toString();
+    if (obj.contrato.length < 12) {
+      obj.contrato = obj.contrato.padStart(12, "0");
+    } else if (obj.contrato.length > 12) {
+      obj.contrato = obj.contrato.slice(-12);
+    }
   }
 
   return obj;
